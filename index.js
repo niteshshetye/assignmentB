@@ -1,29 +1,30 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
 require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
 const {establishConnection} = require('./Db/connect')
 
-
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
-app.use(bodyParser.json()); // parse application/json
+app.use(express.json());
+
+// connect with database
 establishConnection();
 
 
 //import Router
-const UserRoute = require('./routes/User');
-// const ProductRoute = require('./routes/Product');
-// const OrderRoute = require('./routes/Order');
-// const CartRoute = require('./routes/Cart');
 const AuthRoute = require('./routes/Auth');
+const UserRoute = require('./routes/User');
+const ProductRoute = require('./routes/Product');
+const CartRoute = require('./routes/Cart');
+const OrderRoute = require('./routes/Order');
 
 //router
 app.use('/api/auth', AuthRoute);
-app.use('/api/users', UserRoute)
+app.use('/api/users', UserRoute);
+app.use('/api/products', ProductRoute);
+app.use('/api/cart', CartRoute);
+app.use('/api/order', OrderRoute);
 
 // middelware
-
 app.use(cors());
 
 

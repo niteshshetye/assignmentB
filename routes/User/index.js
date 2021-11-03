@@ -51,11 +51,30 @@ router.get('/', verifyTokenAndAdmin, async (req, res)=>{
     }
 });
 
+// states of user
 router.get('/states', verifyTokenAndAdmin, async(req, res) =>{
     const date = new Date();
-    const lastDate = new Date(date.setFullYear(date.getFullYear() - 1))
+    const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
     try{
-        
+        // match will only select the documents which satisfy the condition
+        // Project will create  the field 
+        // $month: '$createdAt' => gives us back the month from createdAt field
+        // $group will give us back the data by grouping of each same month with total data belong to that month
+        const data = await User.aggregate([
+            {$match: {createdAt: { $gte: lastYear}}},
+            {
+                $project: {
+                    month: {$month: '$createdAt'}
+                },
+            },
+            {
+                $group: {
+                    _id: '$month',
+                    total: {$sum: 1}
+                }
+            }
+        ])
+        res.status(200).json(data);
     }catch(error){
         res.status(500).json(error)
     }
