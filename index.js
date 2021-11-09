@@ -5,7 +5,8 @@ const {establishConnection} = require('./Db/connect')
 
 const app = express();
 app.use(express.json());
-
+// middelware
+app.use(cors());
 // connect with database
 establishConnection();
 
@@ -24,8 +25,7 @@ app.use('/api/products', ProductRoute);
 app.use('/api/cart', CartRoute);
 app.use('/api/order', OrderRoute);
 
-// middelware
-app.use(cors());
+
 
 
 
