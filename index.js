@@ -17,6 +17,7 @@ const UserRoute = require('./routes/User');
 const ProductRoute = require('./routes/Product');
 const CartRoute = require('./routes/Cart');
 const OrderRoute = require('./routes/Order');
+const StripeRoute = require('./routes/Stripe');
 
 //router
 app.use('/api/auth', AuthRoute);
@@ -24,9 +25,7 @@ app.use('/api/users', UserRoute);
 app.use('/api/products', ProductRoute);
 app.use('/api/cart', CartRoute);
 app.use('/api/order', OrderRoute);
-
-
-
+app.use('/api/checkout', StripeRoute);
 
 
 app.listen(process.env.PORT, () => {
